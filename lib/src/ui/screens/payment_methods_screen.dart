@@ -55,8 +55,12 @@ class PaymentMethod {
   final String last4;
   final String brand;
   final DateTime expirationDate;
+  final String countryCode;
+  final bool addressLine1Check;
+  final bool addressPostalCodeCheck;
+  final bool cvcCheck;
 
-  const PaymentMethod(this.id, this.last4, this.brand, this.expirationDate);
+  const PaymentMethod(this.id, this.last4, this.brand, this.expirationDate, this.countryCode, this.addressLine1Check, this.addressPostalCodeCheck, this.cvcCheck);
 
   String getExpirationAsString() {
     return '${expirationDate.month}/${expirationDate.year}';

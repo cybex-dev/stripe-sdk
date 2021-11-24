@@ -23,8 +23,7 @@ class PaymentMethodStore extends ChangeNotifier {
     return _instance!;
   }
 
-  PaymentMethodStore({CustomerSession? customerSession})
-      : _customerSession = customerSession ?? CustomerSession.instance {
+  PaymentMethodStore({CustomerSession? customerSession}) : _customerSession = customerSession ?? CustomerSession.instance {
     _customerSession.addListener(() => dispose());
   }
 
@@ -61,10 +60,11 @@ class PaymentMethodStore extends ChangeNotifier {
       final List listData = value['data'] ?? <PaymentMethod>[];
       paymentMethods.clear();
       if (listData.isNotEmpty) {
-        paymentMethods.addAll(listData
-            .map((item) => PaymentMethod(item['id'], item['card']['last4'], item['card']['brand'],
-                DateTime(item['card']['exp_year'], item['card']['exp_month'])))
-            .toList());
+        paymentMethods.addAll(listData.map((item) {
+          var card = item['card'];
+          return PaymentMethod(
+              item['id'], card['last4'], card['brand'], DateTime(card['exp_year'], card['exp_month']), card["country"], card["address_line1_check"], card["address_line1_check"], card["cvc_check"]);
+        }).toList());
       }
     }).whenComplete(() {
       isLoading = false;
