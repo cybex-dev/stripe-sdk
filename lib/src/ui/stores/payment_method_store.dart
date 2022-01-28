@@ -50,8 +50,12 @@ class PaymentMethodStore extends ChangeNotifier {
   }
 
   /// Refresh the store if there are any active listeners.
-  Future<void> refresh() async {
-    if (!hasListeners) return Future.value();
+  Future<void> refresh({bool forceRefresh = false}) async {
+    if (!hasListeners) {
+      if(!forceRefresh) {
+        return Future.value();
+      }
+    }
 
     final paymentMethodFuture = _customerSession.listPaymentMethods(limit: 100);
     isLoading = true;
